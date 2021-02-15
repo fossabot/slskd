@@ -190,10 +190,11 @@ namespace slskd
 
             services.AddDbContextFactory<AppDbContext>(options =>
             {
-                options.UseSqlite("data/slskd.db");
+                System.IO.Directory.CreateDirectory(Path.GetDirectoryName(DatabaseFile));
+                options.UseSqlite($"Data Source={DatabaseFile}");
             });
 
-            services.AddScoped(p => p.GetRequiredService<IDbContextFactory<AppDbContext>>().CreateDbContext());
+            services.AddTransient(p => p.GetRequiredService<IDbContextFactory<AppDbContext>>().CreateDbContext());
 
             services.AddSingleton<ISoulseekClient, SoulseekClient>(serviceProvider => Client);
             services.AddSingleton<ITransferTracker, TransferTracker>();
@@ -218,7 +219,8 @@ namespace slskd
             ITransferTracker tracker,
             IBrowseTracker browseTracker,
             IConversationTracker conversationTracker,
-            IRoomTracker roomTracker)
+            IRoomTracker roomTracker,
+            AppDbContext context)
         {
             var logger = Log.ForContext<Startup>();
 
