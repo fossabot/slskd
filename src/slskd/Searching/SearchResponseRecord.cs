@@ -15,7 +15,7 @@
 //     along with this program.  If not, see https://www.gnu.org/licenses/.
 // </copyright>
 
-namespace slskd.Search
+namespace slskd.Searching
 {
     using System;
     using System.Text.Json;

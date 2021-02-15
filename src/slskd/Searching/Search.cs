@@ -1,4 +1,4 @@
-﻿// <copyright file="ISearchTracker.cs" company="slskd Team">
+﻿// <copyright file="Search.cs" company="slskd Team">
 //     Copyright (c) slskd Team. All rights reserved.
 //
 //     This program is free software: you can redistribute it and/or modify
@@ -15,38 +15,39 @@
 //     along with this program.  If not, see https://www.gnu.org/licenses/.
 // </copyright>
 
-namespace slskd.Search
+namespace slskd.Searching
 {
     using System;
-    using System.Collections.Concurrent;
     using Soulseek;
 
-    /// <summary>
-    ///     Tracks active searches.
-    /// </summary>
-    public interface ISearchTracker
+    public class Search
     {
-        /// <summary>
-        ///     Gets active searches.
-        /// </summary>
-        ConcurrentDictionary<Guid, Soulseek.Search> Searches { get; }
+        public Guid Id { get; init; }
 
         /// <summary>
-        ///     Adds or updates a tracked search.
+        ///     Gets the text for which to search.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="args"></param>
-        void AddOrUpdate(Guid id, SearchEventArgs args);
+        public string SearchText { get; set; }
 
         /// <summary>
-        ///     Removes all tracked searches.
+        ///     Gets the state of the search.
         /// </summary>
-        void Clear();
+        public SearchStates State { get; set; }
 
         /// <summary>
-        ///     Removes a tracked search.
+        ///     Gets the unique identifier for the search.
         /// </summary>
-        /// <param name="id"></param>
-        void TryRemove(Guid id);
+        public int Token { get; set; }
+
+        public static Search FromSoulseekSearch(Soulseek.Search s)
+        {
+            return new Search
+            {
+                Id = Guid.NewGuid(),
+                SearchText = s.SearchText,
+                State = s.State,
+                Token = s.Token,
+            };
+        }
     }
 }

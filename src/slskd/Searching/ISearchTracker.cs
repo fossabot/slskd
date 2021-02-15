@@ -1,4 +1,4 @@
-﻿// <copyright file="SearchTracker.cs" company="slskd Team">
+﻿// <copyright file="ISearchTracker.cs" company="slskd Team">
 //     Copyright (c) slskd Team. All rights reserved.
 //
 //     This program is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
 //     along with this program.  If not, see https://www.gnu.org/licenses/.
 // </copyright>
 
-namespace slskd.Search
+namespace slskd.Searching
 {
     using System;
     using System.Collections.Concurrent;
@@ -24,39 +24,29 @@ namespace slskd.Search
     /// <summary>
     ///     Tracks active searches.
     /// </summary>
-    public class SearchTracker : ISearchTracker
+    public interface ISearchTracker
     {
         /// <summary>
         ///     Gets active searches.
         /// </summary>
-        public ConcurrentDictionary<Guid, Soulseek.Search> Searches { get; private set; } =
-            new ConcurrentDictionary<Guid, Soulseek.Search>();
+        ConcurrentDictionary<Guid, Soulseek.Search> Searches { get; }
 
         /// <summary>
         ///     Adds or updates a tracked search.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="args"></param>
-        public void AddOrUpdate(Guid id, SearchEventArgs args)
-        {
-            Searches.AddOrUpdate(id, args.Search, (token, search) => args.Search);
-        }
+        void AddOrUpdate(Guid id, SearchEventArgs args);
 
         /// <summary>
         ///     Removes all tracked searches.
         /// </summary>
-        public void Clear()
-        {
-            Searches.Clear();
-        }
+        void Clear();
 
         /// <summary>
         ///     Removes a tracked search.
         /// </summary>
         /// <param name="id"></param>
-        public void TryRemove(Guid id)
-        {
-            Searches.TryRemove(id, out _);
-        }
+        void TryRemove(Guid id);
     }
 }
