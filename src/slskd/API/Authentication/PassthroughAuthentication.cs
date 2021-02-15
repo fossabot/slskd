@@ -23,6 +23,7 @@ namespace slskd.API.Authentication
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using slskd.Identity;
 
     /// <summary>
     ///     Passthrough authentication.

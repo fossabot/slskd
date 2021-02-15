@@ -12,6 +12,7 @@ namespace slskd.API.Controllers
     using slskd.API.DTO;
     using slskd;
     using slskd.Configuration;
+    using slskd.Identity;
 
     /// <summary>
     ///     Session
