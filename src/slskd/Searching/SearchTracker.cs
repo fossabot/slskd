@@ -28,9 +28,9 @@ namespace slskd.Searching
     /// </summary>
     public class SearchTracker : ISearchTracker
     {
-        public SearchTracker(IDbContextFactory<AppDbContext> contextFactory)
+        public SearchTracker(AppDbContext context)
         {
-            Context = contextFactory.CreateDbContext();
+            Context = context;
         }
 
         private AppDbContext Context { get; set; }
@@ -49,8 +49,6 @@ namespace slskd.Searching
         public void AddOrUpdate(Guid id, SearchEventArgs args)
         {
             Searches.AddOrUpdate(id, args.Search, (token, search) => args.Search);
-            Context.Searches.Add(Search.FromSoulseekSearch(args.Search));
-            Context.SaveChanges();
         }
 
         /// <summary>

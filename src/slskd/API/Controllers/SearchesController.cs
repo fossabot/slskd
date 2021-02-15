@@ -9,7 +9,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Soulseek;
     using slskd.API.DTO;
-    using slskd.Search;
+    using slskd.Searching;
 
     /// <summary>
     ///     Search
