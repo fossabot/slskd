@@ -1,4 +1,4 @@
-﻿// <copyright file="Startup.cs" company="slskd Team">
+// <copyright file="Startup.cs" company="slskd Team">
 //     Copyright (c) slskd Team. All rights reserved.
 //
 //     This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,7 @@ namespace slskd
     using slskd.Identity;
     using slskd.Messaging;
     using slskd.Persistence;
-    using slskd.Search;
+    using slskd.Searching;
     using slskd.Security;
     using slskd.Transfers;
     using Soulseek;
@@ -57,7 +57,9 @@ namespace slskd
     /// </summary>
     public class Startup
     {
-        private static readonly string XmlDocFile = Path.Combine(System.AppContext.BaseDirectory, Program.AppName + ".xml");
+        private static readonly string XmlDocFile = Path.Combine(AppContext.BaseDirectory, "etc", Program.AppName + ".xml");
+        private static readonly string DatabaseFile = Path.Combine(AppContext.BaseDirectory, "data", Program.AppName + ".db");
+
         private static readonly int MaxReconnectAttempts = 3;
         private static int currentReconnectAttempts = 0;
 
