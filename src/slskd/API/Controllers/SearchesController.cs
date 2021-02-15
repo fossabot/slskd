@@ -9,7 +9,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Soulseek;
     using slskd.API.DTO;
-    using slskd.Trackers;
+    using slskd.Search;
 
     /// <summary>
     ///     Search
@@ -85,7 +85,7 @@
         /// <response code="404">A matching search was not found.</response>
         [HttpGet("{id}")]
         [Authorize]
-        [ProducesResponseType(typeof(Search), 200)]
+        [ProducesResponseType(typeof(Soulseek.Search), 200)]
         [ProducesResponseType(404)]
         public IActionResult GetById([FromRoute]Guid id)
         {

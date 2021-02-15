@@ -7,7 +7,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Soulseek;
     using slskd.API.DTO;
-    using slskd.Trackers;
+    using slskd.Browse;
 
     /// <summary>
     ///     Users

@@ -1,4 +1,4 @@
-﻿namespace slskd.Trackers
+﻿namespace slskd.Browsing
 {
     using Soulseek;
     using System.Collections.Concurrent;
@@ -6,25 +6,27 @@
     /// <summary>
     ///     Tracks browse operations.
     /// </summary>
-    public interface IBrowseTracker
+    public class BrowseTracker : IBrowseTracker
     {
         /// <summary>
         ///     Tracked browse operations.
         /// </summary>
-        ConcurrentDictionary<string, BrowseProgressUpdatedEventArgs> Browses { get; }
+        public ConcurrentDictionary<string, BrowseProgressUpdatedEventArgs> Browses { get; } = new ConcurrentDictionary<string, BrowseProgressUpdatedEventArgs>();
 
         /// <summary>
         ///     Adds or updates a tracked browse operation.
         /// </summary>
         /// <param name="username"></param>
         /// <param name="progress"></param>
-        void AddOrUpdate(string username, BrowseProgressUpdatedEventArgs progress);
+        public void AddOrUpdate(string username, BrowseProgressUpdatedEventArgs progress)
+            => Browses.AddOrUpdate(username, progress, (user, oldprogress) => progress);
 
         /// <summary>
         ///     Removes a tracked browse operation for the specified user.
         /// </summary>
         /// <param name="username"></param>
-        void TryRemove(string username);
+        public void TryRemove(string username)
+            => Browses.TryRemove(username, out _);
 
         /// <summary>
         ///     Gets the browse progress for the specified user.
@@ -32,6 +34,7 @@
         /// <param name="username"></param>
         /// <param name="progress"></param>
         /// <returns></returns>
-        bool TryGet(string username, out BrowseProgressUpdatedEventArgs progress);
+        public bool TryGet(string username, out BrowseProgressUpdatedEventArgs progress)
+            => Browses.TryGetValue(username, out progress);
     }
 }

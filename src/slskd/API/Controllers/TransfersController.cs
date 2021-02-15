@@ -12,8 +12,8 @@ namespace slskd.API.Controllers
     using System.Threading;
     using System.Threading.Tasks;
     using slskd.API.DTO;
-    using slskd.Trackers;
     using slskd.Configuration;
+    using slskd.Transfers;
 
     /// <summary>
     ///     Transfers

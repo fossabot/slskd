@@ -1,6 +1,6 @@
 ﻿namespace slskd.API.DTO
 {
-    using slskd.Entities;
+    using slskd.Messaging;
     using System.Collections.Generic;
     using System.Linq;
 

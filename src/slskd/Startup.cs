@@ -30,6 +30,7 @@ namespace slskd
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Mvc.ApiExplorer;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Caching.Memory;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -41,9 +42,13 @@ namespace slskd
     using Serilog;
     using Serilog.Events;
     using slskd.API.Authentication;
-    using slskd.Entities;
+    using slskd.Browsing;
+    using slskd.Identity;
+    using slskd.Messaging;
+    using slskd.Persistence;
+    using slskd.Search;
     using slskd.Security;
-    using slskd.Trackers;
+    using slskd.Transfers;
     using Soulseek;
     using Soulseek.Diagnostics;
 
@@ -52,7 +57,7 @@ namespace slskd
     /// </summary>
     public class Startup
     {
-        private static readonly string XmlDocFile = Path.Combine(AppContext.BaseDirectory, Program.AppName + ".xml");
+        private static readonly string XmlDocFile = Path.Combine(System.AppContext.BaseDirectory, Program.AppName + ".xml");
         private static readonly int MaxReconnectAttempts = 3;
         private static int currentReconnectAttempts = 0;
 
@@ -180,6 +185,13 @@ namespace slskd
             {
                 services.AddSystemMetrics();
             }
+
+            services.AddDbContextFactory<AppDbContext>(options =>
+            {
+                options.UseSqlite("data/slskd.db");
+            });
+
+            services.AddScoped(p => p.GetRequiredService<IDbContextFactory<AppDbContext>>().CreateDbContext());
 
             services.AddSingleton<ISoulseekClient, SoulseekClient>(serviceProvider => Client);
             services.AddSingleton<ITransferTracker, TransferTracker>();
@@ -554,15 +566,15 @@ namespace slskd
         }
 
         /// <summary>
-        ///     Creates and returns a <see cref="SearchResponse"/> in response to the given <paramref name="query"/>.
+        ///     Creates and returns a <see cref="SearchResponseRecord"/> in response to the given <paramref name="query"/>.
         /// </summary>
         /// <param name="username">The username of the requesting user.</param>
         /// <param name="token">The search token.</param>
         /// <param name="query">The search query.</param>
         /// <returns>A Task resolving a SearchResponse, or null.</returns>
-        private Task<SearchResponse> SearchResponseResolver(string username, int token, SearchQuery query)
+        private Task<Soulseek.SearchResponse> SearchResponseResolver(string username, int token, SearchQuery query)
         {
-            var defaultResponse = Task.FromResult<SearchResponse>(null);
+            var defaultResponse = Task.FromResult<Soulseek.SearchResponse>(null);
 
             // some bots continually query for very common strings. blacklist known names here.
             var blacklist = new[] { "Lola45", "Lolo51", "rajah" };
@@ -583,7 +595,7 @@ namespace slskd
             {
                 Console.WriteLine($"[SENDING SEARCH RESULTS]: {results.Count()} records to {username} for query {query.SearchText}");
 
-                return Task.FromResult(new SearchResponse(
+                return Task.FromResult(new Soulseek.SearchResponse(
                     username,
                     token,
                     freeUploadSlots: 1,
@@ -594,7 +606,7 @@ namespace slskd
 
             // if no results, either return null or an instance of SearchResponse with a fileList of length 0 in either case, no
             // response will be sent to the requestor.
-            return Task.FromResult<SearchResponse>(null);
+            return Task.FromResult<Soulseek.SearchResponse>(null);
         }
 
         /// <summary>

@@ -1,7 +1,7 @@
 ﻿namespace slskd.API.DTO
 {
     using System;
-    using slskd.Entities;
+    using slskd.Messaging;
 
     public class PrivateMessageResponse
     {

@@ -9,8 +9,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using slskd.API.DTO;
-    using slskd.Entities;
-    using slskd.Trackers;
+    using slskd.Messaging;
 
     /// <summary>
     ///     Rooms.

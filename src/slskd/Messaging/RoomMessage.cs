@@ -1,4 +1,4 @@
-﻿namespace slskd.Entities
+﻿namespace slskd.Messaging
 {
     using Soulseek;
     using System;

@@ -1,10 +1,9 @@
-﻿namespace slskd.Trackers
+﻿namespace slskd.Messaging
 {
     using Soulseek;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
-    using slskd.Entities;
 
     /// <summary>
     ///     Tracks rooms.

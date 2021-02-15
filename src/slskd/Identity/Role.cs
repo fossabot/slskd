@@ -1,4 +1,4 @@
-﻿namespace slskd
+﻿namespace slskd.Identity
 {
     public enum Role
     {

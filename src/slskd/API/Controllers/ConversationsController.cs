@@ -8,8 +8,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Soulseek;
     using slskd.API.DTO;
-    using slskd.Entities;
-    using slskd.Trackers;
+    using slskd.Messaging;
 
     /// <summary>
     ///     Conversations
@@ -150,7 +149,7 @@
         [ProducesResponseType(typeof(List<PrivateMessageResponse>), 200)]
         [ProducesResponseType(404)]
         public IActionResult GetByUsername([FromRoute]string username)
-        {            
+        {
             if (Tracker.TryGet(username, out var conversation))
             {
                 var response = conversation

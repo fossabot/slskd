@@ -1,8 +1,7 @@
-﻿namespace slskd.Trackers
+﻿namespace slskd.Messaging
 {
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using slskd.Entities;
 
     /// <summary>
     ///     Tracks private message conversations.
