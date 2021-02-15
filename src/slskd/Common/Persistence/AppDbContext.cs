@@ -18,9 +18,15 @@
 namespace slskd.Persistence
 {
     using Microsoft.EntityFrameworkCore;
+    using slskd.Searching;
 
     public class AppDbContext : DbContext
     {
+        public AppDbContext(DbContextOptions<AppDbContext> options)
+            : base(options)
+        {
+        }
 
+        public DbSet<Search> Searches { get; set; }
     }
 }
